@@ -1,0 +1,70 @@
+<!-- 
+  README
+
+  Project Title: Browser Environment Dashboard
+
+  Description:
+  This webpage displays detailed browser and page information 
+  using JavaScript. It includes:
+    - Browser name, version, platform, screen resolution, etc.
+    - Current page URL, hostname, and document title.
+    - Interactive buttons to change the page title and navigate 
+      (reload, redirect, go back, go forward).
+    - A dynamic background color that adjusts based on screen width.
+
+  Technologies Used:
+    - HTML for structure
+    - JavaScript for logic and interactivity
+    - External CSS for styling (browser_dashboard.css)
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Browser Environment Dashboard</title>
+
+  <link rel="stylesheet" href="browser_dashboard.css">
+
+</head>
+<body>
+
+  <!-- Profile Information -->
+  <header>
+    <h1>Student Profile</h1>
+    <p><strong>Complete Name:</strong> Kim A. Artista</p>
+    <p><strong>Sex:</strong> Male</p>
+    <p><strong>Address:</strong> Hiwacloy, Goa, Camarines Sur</p>
+    <p><strong>Course, Year, Section:</strong> BSIT 2A</p>
+    <p><strong>Name of School:</strong> Partido State University</p>
+    <p><strong>Semester and Academic Year:</strong> 2nd Semester, AY 2024–2025</p>
+    <p><strong>Course Code and Title:</strong> PF2 - Event Driven Programming</p>
+    <p><strong>Name of Subject Instructor:</strong> Arjay F. Abio</p>
+  </header>
+
+  <!-- Browser Info -->
+  <section>
+    <h2>Browser Information</h2>
+    <div class="info-box" id="browserInfo"></div>
+  </section>
+
+  <!-- Page Info -->
+  <section>
+    <h2>Page Information and Controls</h2>
+    <div class="info-box" id="pageInfo"></div>
+    <button id="changeTitleBtn">Change Page Title</button>
+  </section>
+
+  <!-- Navigation Controls -->
+  <section>
+    <h2>Navigation Controls</h2>
+    <button id="reloadBtn">Reload Page</button>
+    <button id="redirectBtn">Go to example.com</button>
+    <button id="backBtn">Go Back</button>
+    <button id="forwardBtn">Go Forward</button>
+  </section>
+
+  <script src="browser_dashboard.js"></script>
+
+</body>
+</html>

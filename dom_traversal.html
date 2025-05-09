@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DOM Traversal Interactive</title>
+    <style>
+        /* Basic styling for the page */
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+
+        /* Styling for the header section containing personal information */
+        .header {
+            text-align: left;
+            max-width: 600px;
+            margin: 0 auto 30px auto;
+            padding: 15px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            background-color: #f9f9f9;
+        }
+
+        /* Styling for paragraphs within the header */
+        .header p {
+            margin: 6px 0;
+        }
+
+        /* Styling for the main heading of the interactive section */
+        h2 {
+            text-align: center;
+        }
+
+        /* Styling for the outermost container (grandparent) */
+        .grandparent {
+            background-color: #f5e79e; /* Light yellow */
+            padding: 20px;
+            display: block;
+            width: 500px;
+            margin: 0 auto;
+            border-radius: 10px;
+        }
+
+        /* Styling for the intermediate containers (parents) */
+        .parent {
+            background-color: #b7dff5; /* Light blue */
+            margin: 10px auto;
+            padding: 10px;
+            width: 90%;
+            border-radius: 8px;
+        }
+
+        /* Styling for the innermost containers (children) */
+        .child {
+            background-color: #f5b7b1; /* Light red */
+            margin: 5px auto;
+            padding: 5px;
+            width: 85%;
+            border-radius: 6px;
+        }
+
+        /* Styling for the highlighted (selected) element */
+        .highlight {
+            border: 3px solid red;
+        }
+
+        /* Styling for the buttons */
+        button {
+            margin: 5px;
+            padding: 10px 15px;
+        }
+
+        /* Styling for the container holding the buttons */
+        .button-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <p><strong>Complete Name:</strong> Kim A. Artista</p>
+        <p><strong>Sex:</strong> Male</p>
+        <p><strong>Address:</strong> Hiwacloy Goa, Camarines Sur</p>
+        <p><strong>Course, Year, and Section:</strong> BSIT 2A</p>
+        <p><strong>Name of School:</strong> Partido State University</p>
+        <p><strong>Semester and Academic Year:</strong> 2nd Semester, AY 2024-2025</p>
+        <p><strong>Subject Code and Title:</strong> PF2 - Event Driven Programming</p>
+        <p><strong>Subject Instructor:</strong> Arjay F. Abio</p>
+    </div>
+
+    <h2>DOM Traversal Interactive</h2>
+
+    <div id="grandparent" class="grandparent">
+        Grandparent
+        <div class="parent">
+            Parent 1
+            <div class="child">Child 1</div>
+            <div class="child">Child 2</div>
+        </div>
+        <div class="parent">
+            Parent 2
+            <div class="child">Child 3</div>
+            <div class="child">Child 4</div>
+        </div>
+    </div>
+
+    <div class="button-container">
+        <button id="btnTraverseDown">Traverse Down</button>
+        <button id="btnTraverseUp">Traverse Up</button>
+        <button id="btnTraverseNext">Traverse Next Sibling</button>
+        <button id="btnTraversePrev">Traverse Previous Sibling</button>
+        <button id="btnAddChild">Add Child</button>
+        <button id="btnDelete">Delete Current</button>
+    </div>
+
+    <script>
+        // Variable to store the currently selected DOM element
+        let selected = null;
+
+        // Event listener that executes when the DOM is fully loaded
+        document.addEventListener("DOMContentLoaded", () => {
+            // Add a click event listener to all elements with classes 'grandparent', 'parent', and 'child'
+            document.querySelectorAll('.grandparent, .parent, .child').forEach(node => {
+                node.addEventListener('click', function (e) {
+                    // Prevent the click event from propagating up the DOM tree
+                    e.stopPropagation();
+                    // Remove the 'highlight' class from the previously selected element, if any
+                    if (selected) selected.classList.remove('highlight');
+                    // Set the currently clicked element as the new selected element
+                    selected = this;
+                    // Add the 'highlight' class to the newly selected element
+                    selected.classList.add('highlight');
+                });
+            });
+
+            // Add event listeners to the buttons to trigger traversal and modification functions
+            document.getElementById("btnTraverseDown").addEventListener("click", traverseDown);
+            document.getElementById("btnTraverseUp").addEventListener("click", traverseUp);
+            document.getElementById("btnTraverseNext").addEventListener("click", traverseNextSibling);
+            document.getElementById("btnTraversePrev").addEventListener("click", traversePreviousSibling);
+            document.getElementById("btnAddChild").addEventListener("click", addChild);
+            document.getElementById("btnDelete").addEventListener("click", deleteCurrent);
+        });
+
+        // Function to traverse down the DOM tree to the first child of the selected element
+        function traverseDown() {
+            // Check if an element is selected and if it has any children
+            if (selected && selected.children.length > 0) {
+                // Change the selection to the first child element
+                changeSelection(selected.children[0]);
+            }
+        }
+
+        // Function to traverse up the DOM tree to the parent of the selected element
+        function traverseUp() {
+            // Check if an element is selected and if it has a parent that is either 'grandparent' or 'parent'
+            if (selected && selected.parentElement &&
+                (selected.parentElement.classList.contains('grandparent') ||
+                 selected.parentElement.classList.contains('parent'))) {
+                // Change the selection to the parent element
+                changeSelection(selected.parentElement);
+            }
+        }
+
+        // Function to traverse to the next sibling element of the selected element
+        function traverseNextSibling() {
+            // Check if an element is selected and if it has a next sibling
+            if (selected && selected.nextElementSibling) {
+                // Change the selection to the next sibling element
+                changeSelection(selected.nextElementSibling);
+            }
+        }
+
+        // Function to traverse to the previous sibling element of the selected element
+        function traversePreviousSibling() {
+            // Check if an element is selected and if it has a previous sibling
+            if (selected && selected.previousElementSibling) {
+                // Change the selection to the previous sibling element
+                changeSelection(selected.previousElementSibling);
+            }
+        }
+
+        // Function to add a new child element to the selected element
+        function addChild() {
+            // If no element is selected, do nothing
+            if (!selected) return;
+
+            // If the selected element is the grandparent, add a new parent with two children
+            if (selected.classList.contains('grandparent')) {
+                // Create a new div element for the parent
+                const newParent = document.createElement('div');
+                newParent.className = 'parent';
+                newParent.textContent = `Parent ${document.querySelectorAll('.parent').length + 1}`;
+
+                // Create the first child div
+                const child1 = document.createElement('div');
+                child1.className = 'child';
+                child1.textContent = `Child A`;
+
+                // Create the second child div
+                const child2 = document.createElement('div');
+                child2.className = 'child';
+                child2.textContent = `Child B`;
+
+                // Append the children to the new parent
+                newParent.appendChild(child1);
+                newParent.appendChild(child2);
+                // Append the new parent to the selected grandparent
+                selected.appendChild(newParent);
+            } else if (selected.classList.contains('parent')) {
+                // If the selected element is a parent, add a new child
+                const newChild = document.createElement('div');
+                newChild.className = 'child';
+                newChild.textContent = `Child ${selected.children.length + 1}`;
+                // Append the new child to the selected parent
+                selected.appendChild(newChild);
+            } else {
+                // If the selected element is a child, alert the user that they cannot add a child to it
+                alert("Cannot add child to a child node.");
+            }
+        }
+
+        // Function to delete the currently selected element
+        function deleteCurrent() {
+            // If no element is selected, do nothing
+            if (!selected) return;
+            // Prevent deletion of the grandparent element
+            if (selected.id === 'grandparent') {
+                alert("Cannot delete grandparent node.");
+                return;
+            }
+            // Store the element to be deleted
+            const toDelete = selected;
+            // Reset the selected element to null
+            selected = null;
+            // Remove the element from its parent in the DOM
+            toDelete.remove();
+        }
+
+        // Function to change the currently selected element and update the highlight
+        function changeSelection(newNode) {
+            // Remove highlight from the previously selected node, if any
+            if (selected) selected.classList.remove('highlight');
+            // Set the new node as the selected node
+            selected = newNode;
+            // Add highlight to the newly selected node
+            selected.classList.add('highlight');
+        }
+    </script>
+</body>
+</html>
